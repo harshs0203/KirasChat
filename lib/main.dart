@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kiras_chat/Screens/Welcome.dart';
+import 'package:kiras_chat/Home.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,8 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: WelcomeScreen()
-      
+      home: Home(),
     );
   }
 }

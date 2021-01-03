@@ -1,5 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:kiras_chat/Screens/Auth/Login.dart';
+import 'package:kiras_chat/Screens/Auth/Register.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -30,13 +32,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Hero(
-                    tag: 'logo',
-                    child: Container(
-                      child: Image.asset('images/logo.png'),
-                      height: 80.0,
-                    ),
-                  ),
+                  // Hero(
+                  //   tag: 'logo',
+                  //   child: Container(
+                  //     child: Image.asset('images/logo.png'),
+                  //     height: 80.0,
+                  //   ),
+                  // ),
                   SizedBox(
                     width: 10.0,
                   ),
@@ -47,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     textStyle: TextStyle(
                       fontSize: 27.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'PaytoneOne',
+                      // fontFamily: 'PaytoneOne',
                       color: Colors.white,
                     ),
                   ),
@@ -58,14 +60,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               RoundedButton(
                 onPressed: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
                 },
                 colour: Colors.white,
                 title: 'Log In',
               ),
               RoundedButton(
                   onPressed: () {
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Register()
+                      ),
+                    );
                   },
                   colour: Colors.white,
                   title: 'Register'),

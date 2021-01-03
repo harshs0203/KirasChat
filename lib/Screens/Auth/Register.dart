@@ -52,12 +52,12 @@ class _RegisterState extends State<Register> {
                   ),
                   RoundedButton(
                     onPressed: () async{
-                      dynamic result= await _auth.register(email, password);
+                      dynamic result= await _auth.register();
                       if(result == null){
                         print('error');
                       }else{
                         print('successful');
-                        print(result);
+                        print(result.uid);
                       }
                     },
                     colour: Colors.white,

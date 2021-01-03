@@ -52,13 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RoundedButton(
                       onPressed: () async{
-                        dynamic result= await _auth.signIn(email, password);
-                        if(result == null){
-                          print('error');
-                        }else{
-                          print('successful');
-                          print(result);
-                        }
                   },
                     colour: Colors.white,
                     title: 'Log In',

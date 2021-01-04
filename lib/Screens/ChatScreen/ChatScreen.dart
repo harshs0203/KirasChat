@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:kiras_chat/Services/AuthService.dart';
+
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+
+  final AuthService _auth =AuthService();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        bottomOpacity: 0,
+        backgroundColor: Color(0xff),
+        elevation: 0,
+        title: Text('KIRAS Chat',
+        style: TextStyle(
+          color: Colors.blue[900],
+          fontSize: 30
+        ),
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.cancel),
+              onPressed: () async{
+                _auth.signOut();
+              },
+            iconSize: 30.0,
+            color: Colors.blue[900],
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+        ),
+      ),
+    );
+  }
+}
+
+  

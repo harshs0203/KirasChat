@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kiras_chat/Screens/ChatScreen/ChatScreen.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
 
@@ -58,6 +59,10 @@ class _RegisterState extends State<Register> {
                       }else{
                         print('successful');
                         print(result.uid);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChatScreen()),
+                        );
                       }
                     },
                     colour: Colors.white,

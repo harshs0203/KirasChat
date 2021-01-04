@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
 import 'package:kiras_chat/constants.dart';
+import 'package:kiras_chat/Services/DatabaseServices.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -9,6 +10,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final AuthService _auth = AuthService();
+  final Database _bca = Database();
+  String messageText;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,8 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.cancel),
             onPressed: () async {
-              _auth.signOut();
+              _bca.getMessagesFromFireStore();
+              //_auth.signOut();
             },
             iconSize: 30.0,
             color: Colors.blue[900],
@@ -43,14 +48,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       //controller: messageTextController,
                       onChanged: (value) {
-                        //messageText = value;
+                        messageText = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
                   FlatButton(
                     onPressed: () {
-                     // messageTextController.clear();
+                      _bca.addingDataToBcaFireStore(messageText, _auth.getCurrentUser());
                     },
                     child: Text(
                       'Send',

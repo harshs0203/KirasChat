@@ -29,6 +29,7 @@ class AuthService{
       return null;
     }
   }
+
   // sign in
   Future logIn(String email, String password) async{
     try{
@@ -40,6 +41,7 @@ class AuthService{
       return null;
     }
   }
+
   //sign out
   Future signOut() async{
      try{
@@ -47,5 +49,10 @@ class AuthService{
      }catch(e){
        print(e);
      }
+  }
+
+  //getting current user data
+  String getCurrentUser()  {
+     return _auth.currentUser.email;
   }
 }

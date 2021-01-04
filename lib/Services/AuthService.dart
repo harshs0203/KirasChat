@@ -1,25 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kiras_chat/models/user.dart';
+import 'package:kiras_chat/models/UserModel.dart';
+
+import '../models/UserModel.dart';
 
 class AuthService{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   // create user object based on FireBaseUser
-  UserInfo _gettingUserInfo(FirebaseUser user){
-    if (user != null) {
-      return UserInfo(uid:user.uid);
-    } else {
-      return null;
-    }
+   UserFromFirebase _gettingUserInfo(var user){
+    return user != null ? UserFromFirebase(uid: user.uid) : null;
   }
+
 
   //register
   Future register() async{
     try{
       var result =  await _auth.signInAnonymously();
       var user = result.user;
-     // return _userFromFireBase(user);
-      return _gettingUserInfo(user);
+     return _gettingUserInfo(user);
     }catch(e){
       print(e);
       return null;

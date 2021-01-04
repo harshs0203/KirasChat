@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:kiras_chat/Screens/Auth/Login.dart';
 import 'package:kiras_chat/Screens/Auth/Register.dart';
@@ -42,17 +41,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  TypewriterAnimatedTextKit(
-                    text: ['KIRAS DASHBOARD'],
-                    speed: Duration(milliseconds: 80),
-                    totalRepeatCount: 100,
-                    textStyle: TextStyle(
-                      fontSize: 27.0,
-                      fontWeight: FontWeight.w500,
-                      // fontFamily: 'PaytoneOne',
-                      color: Colors.white,
-                    ),
-                  ),
+                  // TypewriterAnimatedTextKit(
+                  //   text: ['KIRAS DASHBOARD'],
+                  //   speed: Duration(milliseconds: 80),
+                  //   totalRepeatCount: 100,
+                  //   textStyle: TextStyle(
+                  //     fontSize: 27.0,
+                  //     fontWeight: FontWeight.w500,
+                  //     // fontFamily: 'PaytoneOne',
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(

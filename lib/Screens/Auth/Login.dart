@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kiras_chat/Screens/ChatScreen/ChatScreen.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 
@@ -9,6 +10,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
   String email;
   String password;
 
@@ -28,36 +31,68 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Center(
-            child: Form(
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    onChanged: (val){
-                      setState(() {
-                        email = val;
-                      });
-                    },
+          padding: EdgeInsets.symmetric(horizontal: 50.0,vertical: 20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    errorStyle: TextStyle(color: Colors.white),
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
-                  SizedBox(height: 20.0,),
-                  TextFormField(
-                    obscureText: true,
-                    onChanged: (val){
-                      setState(() {
-                        password = val;
-                      });
-                    },
-                  ),
-                  RoundedButton(
-                      onPressed: () async{
+                  validator: (val) =>
+                      val.isEmpty ? 'This field can not be empty' : null,
+                  onChanged: (val) {
+                    setState(() {
+                      email = val;
+                    });
                   },
-                    colour: Colors.white,
-                    title: 'Log In',
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    errorStyle: TextStyle(color: Colors.white),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
-                ],
-              ),
+                  validator: (val) => val.length < 6
+                      ? 'Password should of at least of 6 characters'
+                      : null,
+                  obscureText: true,
+                  onChanged: (val) {
+                    setState(() {
+                      password = val;
+                    });
+                  },
+                ),
+                RoundedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      dynamic result = await _auth.logIn(email, password);
+                      if (result == null) {
+                        print('error');
+                      } else {
+                        print('successful');
+                        print(result.uid);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen()),
+                        );
+                      }
+                    }
+                  },
+                  colour: Colors.white,
+                  title: 'Log In',
+                ),
+              ],
             ),
           ),
         ),

@@ -10,6 +10,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
   String email;
   String password;
 
@@ -29,34 +30,47 @@ class _RegisterState extends State<Register> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Center(
-            child: Form(
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    onChanged: (val){
-                      setState(() {
-                        email = val;
-                      });
-                    },
+          padding: EdgeInsets.symmetric(horizontal: 50.0,vertical: 20.0),
+          child: Form(
+          key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(height: 20,),
+                TextFormField(
+                  decoration: InputDecoration(
+                    errorStyle: TextStyle(color: Colors.white),
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
-                  SizedBox(height: 20.0,),
-                  TextFormField(
-                    obscureText: true,
-                    onChanged: (val){
-                      setState(() {
-                        password = val;
-                      });
-                    },
+                  validator: (val) => val.isEmpty ? 'This field can not be empty' : null,
+                  onChanged: (val){
+                    setState(() {
+                      email = val;
+                    });
+                  },
+                ),
+                SizedBox(height: 20.0,),
+                TextFormField(
+                  decoration: InputDecoration(
+                    errorStyle: TextStyle(color: Colors.white),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
-                  RoundedButton(
-                    onPressed: () async{
-                      dynamic result= await _auth.register();
-                      if(result == null){
+                  validator: (val) => val.length < 6 ? 'Password should of at least of 6 characters' : null,
+                  obscureText: true,
+                  onChanged: (val){
+                    setState(() {
+                      password = val;
+                    });
+                  },
+                ),
+                RoundedButton(
+                  onPressed: () async{
+                    if(_formKey.currentState.validate()) {
+                      dynamic result = await _auth.register(email,password);
+                      if (result == null) {
                         print('error');
-                      }else{
+                      } else {
                         print('successful');
                         print(result.uid);
                         Navigator.push(
@@ -64,12 +78,12 @@ class _RegisterState extends State<Register> {
                           MaterialPageRoute(builder: (context) => ChatScreen()),
                         );
                       }
-                    },
-                    colour: Colors.white,
-                    title: 'Register',
-                  ),
-                ],
-              ),
+                    }
+                  },
+                  colour: Colors.white,
+                  title: 'Register',
+                ),
+              ],
             ),
           ),
         ),

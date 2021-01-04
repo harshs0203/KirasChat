@@ -19,9 +19,9 @@ class AuthService{
   }
 
   //register
-  Future register() async{
+  Future register(String email, String  password) async{
     try{
-      var result =  await _auth.signInAnonymously();
+      var result =  await _auth.createUserWithEmailAndPassword(email: email, password: password);
       var user = result.user;
      return _gettingUserInfo(user);
     }catch(e){
@@ -30,10 +30,10 @@ class AuthService{
     }
   }
   // sign in
-  Future signIn(String email, String password) async{
+  Future logIn(String email, String password) async{
     try{
-      var result =  (await _auth.signInWithEmailAndPassword(email: email, password: password)) as AuthService;
-      var user = result._auth.currentUser;
+      var result =  await _auth.signInWithEmailAndPassword(email: email, password: password);
+      var user = result.user;
       return user;
     }catch(e){
       print(e);

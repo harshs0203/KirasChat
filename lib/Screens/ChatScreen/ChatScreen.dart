@@ -14,6 +14,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final AuthService _auth = AuthService();
   final Database _bca = Database();
   String messageText;
+  final messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.cancel),
             onPressed: () async {
-              _bca.getMessagesFromFireStore();
-              //_auth.signOut();
+              _auth.signOut();
             },
             iconSize: 30.0,
             color: Colors.blue[900],

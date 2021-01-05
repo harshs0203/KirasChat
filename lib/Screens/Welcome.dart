@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kiras_chat/Screens/Auth/Login.dart';
 import 'package:kiras_chat/Screens/Auth/Register.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
+// ignore: implementation_imports
+import 'package:animated_text_kit/src/typewriter.dart';
 class WelcomeScreen extends StatefulWidget {
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -31,27 +33,27 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  // Hero(
-                  //   tag: 'logo',
-                  //   child: Container(
-                  //     child: Image.asset('images/logo.png'),
-                  //     height: 80.0,
-                  //   ),
-                  // ),
+                  Hero(
+                    tag: 'logo',
+                    child: Container(
+                      child: Image.asset('images/KirasChat Logo.png'),
+                      height: 70.0,
+                    ),
+                  ),
                   SizedBox(
                     width: 10.0,
                   ),
-                  // TypewriterAnimatedTextKit(
-                  //   text: ['KIRAS DASHBOARD'],
-                  //   speed: Duration(milliseconds: 80),
-                  //   totalRepeatCount: 100,
-                  //   textStyle: TextStyle(
-                  //     fontSize: 27.0,
-                  //     fontWeight: FontWeight.w500,
-                  //     // fontFamily: 'PaytoneOne',
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
+                  TypewriterAnimatedTextKit(
+                    text: ['KIRAS DASHBOARD'],
+                    speed: Duration(milliseconds: 80),
+                    totalRepeatCount: 100,
+                    textStyle: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'PaytoneOne',
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -66,8 +68,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 },
                 colour: Colors.white,
                 title: 'Log In',
+                width: 200,
               ),
               RoundedButton(
+                  width: 200,
                   onPressed: () {
                     Navigator.push(
                       context,

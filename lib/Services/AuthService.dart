@@ -34,10 +34,9 @@ class AuthService{
     try{
       var result =  await _auth.signInWithEmailAndPassword(email: email, password: password);
       var user = result.user;
-      return user;
+      return _gettingUserInfo(user);
     }catch(e){
-      print(e);
-      return null;
+      return e;
     }
   }
 

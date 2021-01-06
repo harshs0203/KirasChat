@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kiras_chat/Screens/ChatScreen/ChatScreen.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
+import 'package:kiras_chat/components/AlertDialog.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 import 'package:kiras_chat/constants.dart';
 
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white),
-                      decoration: kTextFieldDecoration.copyWith(hintText: 'Enter Your Email'),
+                      decoration: kTextFieldDecoration.copyWith(hintText: 'Enter Your Password'),
                       validator: (val) => val.length < 6
                           ? 'Password should of at least of 6 characters'
                           : null,
@@ -89,25 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30.0,
                     ),
                     RoundedButton(
-                      onPressed: () async {
-                        try{
-                          if (_formKey.currentState.validate()) {
-                            dynamic result = await _auth.logIn(email, password);
-                            if (result == null) {
-                              print('error');
-                            } else {
-                              print('successful');
-                              print(result.uid);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatScreen()),
-                              );
-                            }
-                          }
-                        }catch(e){
-
-                        }
+                      onPressed: ()  {
+                        securityCheck();
                       },
                       colour: Colors.white,
                       title: 'Log In',
@@ -122,4 +106,29 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  securityCheck() async{
+    try {
+      if (_formKey.currentState.validate()) {
+        dynamic result = await _auth.logIn(email, password);
+        if (result == null) {
+          showDialog(context: context,child: ErrorPopup(title:Text('User Not Found'),content: Text('$result')));
+        } else {
+          print('successful');
+          print(result.uid);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatScreen()),
+          );
+        }
+      }
+    }catch(e){
+      setState(() {
+        //showSpinner = false;
+      });
+      //showDialog(context: context,child: ErrorPopup(content: Text('$e.')));
+    }
+  }
+
 }

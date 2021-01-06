@@ -204,22 +204,7 @@ class _RegisterState extends State<Register> {
                       ),
                       RoundedButton(
                         width: 200,
-                        onPressed: () async {
-                          // if (_formKey.currentState.validate()) {
-                          //   dynamic result =
-                          //       await _auth.register(email, password);
-                          //   if (result == null) {
-                          //     print('error');
-                          //   } else {
-                          //     print('successful');
-                          //     print(result.uid);
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => ChatScreen()),
-                          //     );
-                          //   }
-                          // }
+                        onPressed: ()  {
                           securityCheck();
                         },
                         colour: Colors.white,
@@ -274,7 +259,7 @@ class _RegisterState extends State<Register> {
           setState(() {
             // showSpinner = false;
           });
-          //showDialog(context: context,child: ErrorPopup(content: Text('$e.')));
+          showDialog(context: context,child: ErrorPopup(content: Text('$e.')));
         }
       }else{
         String subID = id.substring(3, 6);

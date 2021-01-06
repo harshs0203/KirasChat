@@ -41,14 +41,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 10.0,
+                    width: 20.0,
                   ),
                   TypewriterAnimatedTextKit(
-                    text: ['KIRAS DASHBOARD'],
+                    text: ['KIRAS CHAT'],
                     speed: Duration(milliseconds: 80),
                     totalRepeatCount: 100,
                     textStyle: TextStyle(
-                      fontSize: 25.0,
+                      fontSize: 35.0,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'PaytoneOne',
                       color: Colors.white,

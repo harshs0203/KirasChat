@@ -21,11 +21,13 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         bottomOpacity: 0,
-        backgroundColor: Color(0xff),
+        //backgroundColor: Color(0xff),
+        backgroundColor: Colors.blue[800],
         elevation: 0,
         title: Text(
           'KIRAS Chat',
-          style: TextStyle(color: Colors.blue[900], fontSize: 30),
+          //style: TextStyle(color: Colors.blue[900], fontSize: 30),
+          style: TextStyle(color: Colors.white, fontSize: 30,fontFamily: 'PaytoneOne',),
         ),
         actions: <Widget>[
           IconButton(
@@ -34,45 +36,58 @@ class _ChatScreenState extends State<ChatScreen> {
               _auth.signOut();
             },
             iconSize: 30.0,
-            color: Colors.blue[900],
+            // color: Colors.blue[900],
+            color: Colors.white,
           ),
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              MessageStream(),
-              Container(
-                decoration: kMessageContainerDecoration,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          controller: messageTextController,
-                          onChanged: (value) {
-                            messageText = value;
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.white,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.center,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MessageStream(),
+                Container(
+                  decoration: kMessageContainerDecoration,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            controller: messageTextController,
+                            onChanged: (value) {
+                              messageText = value;
+                            },
+                            decoration: kMessageTextFieldDecoration,
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            messageTextController.clear();
+                            _bca.addingDataToBcaFireStore(messageText, _auth.getCurrentUser());
                           },
-                          decoration: kMessageTextFieldDecoration,
+                          child: Text(
+                            'Send',
+                            style: kSendButtonTextStyle,
+                          ),
                         ),
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          messageTextController.clear();
-                          _bca.addingDataToBcaFireStore(messageText, _auth.getCurrentUser());
-                        },
-                        child: Text(
-                          'Send',
-                          style: kSendButtonTextStyle,
-                        ),
-                      ),
-                    ]),
-              ),
-            ],
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),

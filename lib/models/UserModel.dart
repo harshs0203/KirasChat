@@ -1,13 +1,13 @@
 class UserFromFirebase{
   final String uid;
   final String email;
-  final bool bca;
+  final String stream;
   final bool teacher;
 
   // ignore: non_constant_identifier_names
   UserFromFirebase({this.uid,
     this.email,
-    this.bca,
+    this.stream,
     this.teacher
   });
 

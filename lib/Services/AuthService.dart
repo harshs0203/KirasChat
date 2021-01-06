@@ -25,8 +25,7 @@ class AuthService{
       var user = result.user;
      return _gettingUserInfo(user);
     }catch(e){
-      print(e);
-      return null;
+      return e;
     }
   }
 

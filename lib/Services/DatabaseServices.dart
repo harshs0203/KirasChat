@@ -8,10 +8,12 @@ class Database{
   final CollectionReference bcaCollection = Firestore.instance.collection('BcaMessage');
   
   void addingDataToBcaFireStore(String message, var sender){
-    bcaCollection.add({
-      'text' : message,
-      'sender' : sender,
-    });
+    if(message != null) {
+      bcaCollection.add({
+        'text': message,
+        'sender': sender,
+      });
+    }
   }
 
   void getMessagesFromFireStore()async{

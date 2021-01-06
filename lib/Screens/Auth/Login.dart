@@ -34,13 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: ListView(
-            padding: EdgeInsets.only(top: 150.0),
+            padding: EdgeInsets.only(top: 180.0),
             children: [
-              Hero(
-                tag: 'logo',
-                child: Container(
-                  height: 200.0,
-                  child: Image.asset('images/KirasChat Logo.png'),
+              Flexible(
+                child: Hero(
+                  tag: 'logo',
+                  child: Container(
+                    height: 200.0,
+                    child: Image.asset('images/KirasChat Logo.png'),
+                  ),
                 ),
               ),
               SizedBox(

@@ -49,7 +49,7 @@ class _RegisterState extends State<Register> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: ListView(
-              padding: EdgeInsets.only(top: 90.0),
+              padding: EdgeInsets.only(top: 185.0),
               children: [
                 Hero(
                   tag: 'logo',
@@ -94,8 +94,9 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: 1.0,
                       ),
-                      TextField(
+                      TextFormField(
                         textAlign: TextAlign.center,
+                        obscureText: true,
                         keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.white),
                         onChanged: (value) {
@@ -104,69 +105,67 @@ class _RegisterState extends State<Register> {
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: 'Enter your $fieldType'),
                       ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
+
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Select Your Stream',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              fontSize: 30.0,
-                              fontFamily: 'PaytoneOne',
-                            ),
-                          ),
-                          RadioListTile(
-                              value: 1,
-                              groupValue: selectedRadio,
-                              title: Text("BCA",
-                                style:
-                                TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontFamily: 'PaytoneOne',
-                                ),
-                              ),
-                            secondary: Icon(
-                                    Icons.computer,
-                                     color: Colors.white,
-                                  ),
-                              activeColor: Colors.white70,
-                              selected: true,
-                              onChanged: (val){
-                                selectedRadioTile(val);
-                                streamSelect();
-                                print('radio $stream');
-                              }
-                          ),
-                          RadioListTile(
-                              value: 2,
-                              groupValue: selectedRadio,
-                              title: Text("B.ed",
-                                style:
-                                TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontFamily: 'PaytoneOne',
-                                ),
-                              ),
-                              secondary: Icon(
-                                Icons.school,
-                                color: Colors.white,
-                              ),
-                              activeColor: Colors.white70,
-                              selected: true,
-                              onChanged: (val){
-                                selectedRadioTile(val);
-                                streamSelect();
-                                print('radio $stream');
-                              }
-                          ),
+                          // Text(
+                          //   'Select Your Stream',
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.w500,
+                          //       color: Colors.white,
+                          //     fontSize: 30.0,
+                          //     fontFamily: 'PaytoneOne',
+                          //   ),
+                          // ),
+                          // RadioListTile(
+                          //     value: 1,
+                          //     groupValue: selectedRadio,
+                          //     title: Text("BCA",
+                          //       style:
+                          //       TextStyle(
+                          //       fontWeight: FontWeight.w500,
+                          //       color: Colors.white,
+                          //       fontSize: 20.0,
+                          //       fontFamily: 'PaytoneOne',
+                          //       ),
+                          //     ),
+                          //   secondary: Icon(
+                          //           Icons.computer,
+                          //            color: Colors.white,
+                          //         ),
+                          //     activeColor: Colors.white70,
+                          //     selected: true,
+                          //     onChanged: (val){
+                          //       selectedRadioTile(val);
+                          //       streamSelect();
+                          //       print('radio $stream');
+                          //     }
+                          // ),
+                          // RadioListTile(
+                          //     value: 2,
+                          //     groupValue: selectedRadio,
+                          //     title: Text("B.ed",
+                          //       style:
+                          //       TextStyle(
+                          //         fontWeight: FontWeight.w500,
+                          //         color: Colors.white,
+                          //         fontSize: 20.0,
+                          //         fontFamily: 'PaytoneOne',
+                          //       ),
+                          //     ),
+                          //     secondary: Icon(
+                          //       Icons.school,
+                          //       color: Colors.white,
+                          //     ),
+                          //     activeColor: Colors.white70,
+                          //     selected: true,
+                          //     onChanged: (val){
+                          //       selectedRadioTile(val);
+                          //       streamSelect();
+                          //       print('radio $stream');
+                          //     }
+                          // ),
                           SizedBox(
                             height: 10.0,
                           ),
@@ -177,7 +176,7 @@ class _RegisterState extends State<Register> {
                         style: TextStyle(color: Colors.white),
                         keyboardType: TextInputType.emailAddress,
                         validator: (val) =>
-                       val.contains('@kiras.com') ? val.isEmpty ? 'This field can not be empty' : null : 'Email format is wrong',
+                        val.isEmpty ? val.contains('@kiras.com') ?  'Email format is wrong'  : 'This field can not be empty': null,
                         onChanged: (value) {
                           email = value;
                         },
@@ -243,17 +242,16 @@ class _RegisterState extends State<Register> {
     if(id.length == 11){
       if(id.substring(3, 6) == '144' || id == kTeachersNumber){
         try {
-          setState(() {
-            showSpinner = true;
-          });
           if (_formKey.currentState.validate()) {
+            setState(() {
+              showSpinner = true;
+            });
             dynamic result =
                 await _auth.register(email, password);
             if (result == null) {
               setState(() {
                 showSpinner = false;
               });
-              showDialog(context: context,child: ErrorPopup(title:Text('User Not Found'),content: Text('$result')));
             } else {
               setState(() {
                 showSpinner = false;
@@ -269,11 +267,9 @@ class _RegisterState extends State<Register> {
           setState(() {
             showSpinner = false;
           });
-          showDialog(context: context,child: ErrorPopup(content: Text('$e.')));
+          showDialog(context: context,child: ErrorPopup(title:Text('ERROR'),content: Text('$e')));
         }
       }else{
-        String subID = id.substring(3, 6);
-        print('$subID');
         showDialog(context: context,child: ErrorPopup(title:Text('Sorry, the number is invalid'),content: Text('The number you have entered is not with relevance to the college.')));
       }
     }else{

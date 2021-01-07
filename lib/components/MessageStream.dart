@@ -10,7 +10,7 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _bca.bcaCollection.orderBy('timestamp',descending: true).snapshots(),
+        stream: _bca.bcaCollection.orderBy('timestamp',descending: false).snapshots(),
         builder: (context, snapshot){
           if(!snapshot.hasData) {
             return Center(
@@ -24,12 +24,14 @@ class MessageStream extends StatelessWidget {
           for (var message in messages) {
             final messageText = message.data()['text'];
             final messagesSender = message.data()['sender'];
+            final messageTimeStamp = message.data()['timestamp'];
             final currentUser = _auth.getCurrentUser();
 
             final messageBubble =  MessageBubble(
               sender: messagesSender,
               text: messageText,
               isTheUser: currentUser == messagesSender,
+              dateTime: messageTimeStamp,
             );
             messageBubbles.add(messageBubble);
           }
@@ -42,4 +44,7 @@ class MessageStream extends StatelessWidget {
           );
         });
   }
+
+
 }
+

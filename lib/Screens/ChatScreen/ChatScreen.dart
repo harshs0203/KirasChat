@@ -3,6 +3,7 @@ import 'package:kiras_chat/Services/AuthService.dart';
 import 'package:kiras_chat/components/MessageStream.dart';
 import 'package:kiras_chat/constants.dart';
 import 'package:kiras_chat/Services/DatabaseServices.dart';
+import 'package:kiras_chat/models/UserModel.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -35,7 +36,10 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.cancel),
             onPressed: () async {
-              _auth.signOut();
+              setState(() {
+                Navigator.pop(context);
+                _auth.signOut();
+              });
             },
             iconSize: 30.0,
             color: Colors.white,

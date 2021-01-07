@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: kTextFieldDecoration.copyWith(hintText: 'Enter Your Email'),
                         validator: (val) =>
-                            val.isEmpty ? 'This field can not be empty' : null,
+                            val.isEmpty ? !val.contains('@') ? 'Email invalid':'This field can not be empty' : null,
                         onChanged: (val) {
                           setState(() {
                             email = val;
@@ -77,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                         decoration: kTextFieldDecoration.copyWith(hintText: 'Enter Your Password'),
-                        validator: (val) => val.length < 6
-                            ? 'Password should of at least of 6 characters'
+                        validator: (val) => val.isEmpty
+                            ? 'Password should not be null'
                             : null,
                         obscureText: true,
                         onChanged: (val) {
@@ -111,16 +111,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   securityCheck() async{
     try {
-      setState(() {
-        showSpinner = true;
-      });
       if (_formKey.currentState.validate()) {
-        dynamic result = await _auth.logIn(email, password);
+        setState(() {
+          showSpinner = true;
+        });
+        dynamic result = await _auth.logIn(email, password, context);
         if (result == null) {
           setState(() {
             showSpinner = false;
           });
-          showDialog(context: context,child: ErrorPopup(title:Text('User Not Found'),content: Text('$result')));
         } else {
           setState(() {
             showSpinner = false;

@@ -3,7 +3,7 @@ import 'package:kiras_chat/Screens/ChatScreen/ChatScreen.dart';
 import 'package:kiras_chat/components/AlertDialog.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart' ;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../constants.dart';
 
 class Register extends StatefulWidget {
@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-     inAsyncCall: showSpinner,
+      inAsyncCall: showSpinner,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -70,7 +70,8 @@ class _RegisterState extends State<Register> {
                           title: Text(
                             'Are You A Teacher?',
                             style: TextStyle(
-                                fontWeight: FontWeight.w500, color: Colors.white),
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
                           ),
                           secondary: Icon(
                             Icons.person_outline,
@@ -87,7 +88,7 @@ class _RegisterState extends State<Register> {
                                 fieldType = 'Teacher\'s Number';
                               } else {
                                 checkBoxValue = value;
-                                fieldType='Enrollment Number';
+                                fieldType = 'Enrollment Number';
                               }
                             });
                           }),
@@ -95,6 +96,8 @@ class _RegisterState extends State<Register> {
                         height: 1.0,
                       ),
                       TextFormField(
+                        validator: (val) =>
+                            val.isEmpty ? 'This field can not be empty' : null,
                         textAlign: TextAlign.center,
                         obscureText: true,
                         keyboardType: TextInputType.number,
@@ -105,7 +108,6 @@ class _RegisterState extends State<Register> {
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: 'Enter your $fieldType'),
                       ),
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -167,7 +169,7 @@ class _RegisterState extends State<Register> {
                           //     }
                           // ),
                           SizedBox(
-                            height: 10.0,
+                            height: 20.0,
                           ),
                         ],
                       ),
@@ -175,8 +177,11 @@ class _RegisterState extends State<Register> {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (val) =>
-                        val.isEmpty ? val.contains('@kiras.com') ?  'Email format is wrong'  : 'This field can not be empty': null,
+                        validator: (val) => val.isEmpty
+                            ? val.contains('@kiras.com')
+                                ? 'Email format is wrong'
+                                : 'This field can not be empty'
+                            : null,
                         onChanged: (value) {
                           email = value;
                         },
@@ -184,7 +189,7 @@ class _RegisterState extends State<Register> {
                             hintText: 'Email as: firstname_lastname@kiras.com'),
                       ),
                       SizedBox(
-                        height: 8.0,
+                        height: 20.0,
                       ),
                       TextFormField(
                         textAlign: TextAlign.center,
@@ -204,8 +209,8 @@ class _RegisterState extends State<Register> {
                         height: 20.0,
                       ),
                       RoundedButton(
-                        width: 200,
-                        onPressed: ()  {
+                        width: 220,
+                        onPressed: () {
                           securityCheck();
                         },
                         colour: Colors.white,
@@ -222,60 +227,90 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  selectedRadioTile(int val){
+  selectedRadioTile(int val) {
     setState(() {
       selectedRadio = val;
     });
   }
 
-  void streamSelect(){
+  void streamSelect() {
     setState(() {
-      if(selectedRadio == 1){
+      if (selectedRadio == 1) {
         stream = 'BCA';
-      }else{
+      } else {
         stream = 'Bed';
       }
     });
   }
 
-  void securityCheck() async{
-    if(id.length == 11){
-      if(id.substring(3, 6) == '144' || id == kTeachersNumber){
+  void securityCheck() async {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        showSpinner = true;
+      });
+      if (id.length == 11) {
         try {
-          if (_formKey.currentState.validate()) {
-            setState(() {
-              showSpinner = true;
-            });
-            dynamic result =
-                await _auth.register(email, password);
-            if (result == null) {
-              setState(() {
-                showSpinner = false;
-              });
+          if (id.substring(3, 6) == '144' || id == kTeachersNumber) {
+            if (email.contains('@kiras.com')) {
+              dynamic result = await _auth.register(email, password);
+              if (result == null) {
+                setState(() {
+                  showSpinner = false;
+                });
+              } else {
+                setState(() {
+                  showSpinner = false;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatScreen()),
+                );
+              }
             } else {
               setState(() {
                 showSpinner = false;
               });
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatScreen()),
+              showDialog(
+                context: context,
+                child: ErrorPopup(
+                  title: Text('Invalid email Format'),
+                  content: Text(
+                      'The email you have entered is not with relevance to the college.'),
+                ),
               );
             }
+          } else {
+            setState(() {
+              showSpinner = false;
+            });
+            showDialog(
+                context: context,
+                child: ErrorPopup(
+                    title: Text('Sorry, the number is invalid'),
+                    content: Text(
+                        'The number you have entered is not with relevance to the college.')));
           }
-        }catch(e){
+        } catch (e) {
           setState(() {
             showSpinner = false;
           });
-          showDialog(context: context,child: ErrorPopup(title:Text('ERROR'),content: Text('$e')));
+          showDialog(
+              context: context,
+              child: ErrorPopup(title: Text('ERROR'), content: Text('$e')));
         }
-      }else{
-        showDialog(context: context,child: ErrorPopup(title:Text('Sorry, the number is invalid'),content: Text('The number you have entered is not with relevance to the college.')));
+      } else {
+        setState(() {
+          showSpinner = false;
+        });
+        showDialog(
+            context: context,
+            child: ErrorPopup(
+                title: Text('Invalid Number'),
+                content: Text(
+                    'The number you have entered is too long or too short.')));
       }
-    }else{
-      showDialog(context: context, child: ErrorPopup(title: Text('Invalid Number'),content: Text('The number you have entered is too long or too short.')));
+    } else {
+      return null;
     }
   }
-
 }
-

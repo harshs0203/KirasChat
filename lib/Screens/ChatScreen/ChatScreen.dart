@@ -20,13 +20,15 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(
+          child: Image.asset('images/KirasChat Logo.png',
+          ),
+        ),
         bottomOpacity: 0,
-        //backgroundColor: Color(0xff),
         backgroundColor: Colors.blue[800],
         elevation: 0,
         title: Text(
           'KIRAS Chat',
-          //style: TextStyle(color: Colors.blue[900], fontSize: 30),
           style: TextStyle(color: Colors.white, fontSize: 30,fontFamily: 'PaytoneOne',),
         ),
         actions: <Widget>[
@@ -36,7 +38,6 @@ class _ChatScreenState extends State<ChatScreen> {
               _auth.signOut();
             },
             iconSize: 30.0,
-            // color: Colors.blue[900],
             color: Colors.white,
           ),
         ],

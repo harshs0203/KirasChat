@@ -10,8 +10,7 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _bca.bcaCollection.snapshots(),
-        // ignore: missing_return
+        stream: _bca.bcaCollection.orderBy('timestamp',descending: true).snapshots(),
         builder: (context, snapshot){
           if(!snapshot.hasData) {
             return Center(

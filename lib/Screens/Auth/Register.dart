@@ -3,7 +3,7 @@ import 'package:kiras_chat/Screens/ChatScreen/ChatScreen.dart';
 import 'package:kiras_chat/components/AlertDialog.dart';
 import 'package:kiras_chat/components/roundedButton.dart';
 import 'package:kiras_chat/Services/AuthService.dart';
-
+import 'package:modal_progress_hud/modal_progress_hud.dart' ;
 import '../../constants.dart';
 
 class Register extends StatefulWidget {
@@ -19,6 +19,7 @@ class _RegisterState extends State<Register> {
   String stream;
   int selectedRadio;
   String id;
+  bool showSpinner = false;
   bool checkBoxValue = false;
   String fieldType = 'Enrollment Number';
 
@@ -30,22 +31,23 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue[900],
-              Colors.blue[200],
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return ModalProgressHUD(
+     inAsyncCall: showSpinner,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue[900],
+                Colors.blue[200],
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.0),
-          child: Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: ListView(
               padding: EdgeInsets.only(top: 90.0),
               children: [
@@ -130,8 +132,8 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                             secondary: Icon(
-                                    Icons.computer_sharp,
-                                    color: Colors.white,
+                                    Icons.computer,
+                                     color: Colors.white,
                                   ),
                               activeColor: Colors.white70,
                               selected: true,
@@ -154,7 +156,7 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               secondary: Icon(
-                                Icons.school_outlined,
+                                Icons.school,
                                 color: Colors.white,
                               ),
                               activeColor: Colors.white70,
@@ -175,12 +177,12 @@ class _RegisterState extends State<Register> {
                         style: TextStyle(color: Colors.white),
                         keyboardType: TextInputType.emailAddress,
                         validator: (val) =>
-                        val.isEmpty ? 'This field can not be empty' : null,
+                       val.contains('@kiras.com') ? val.isEmpty ? 'This field can not be empty' : null : 'Email format is wrong',
                         onChanged: (value) {
                           email = value;
                         },
                         decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Enter your Email'),
+                            hintText: 'Email as: firstname_lastname@kiras.com'),
                       ),
                       SizedBox(
                         height: 8.0,
@@ -241,13 +243,21 @@ class _RegisterState extends State<Register> {
     if(id.length == 11){
       if(id.substring(3, 6) == '144' || id == kTeachersNumber){
         try {
+          setState(() {
+            showSpinner = true;
+          });
           if (_formKey.currentState.validate()) {
             dynamic result =
                 await _auth.register(email, password);
             if (result == null) {
+              setState(() {
+                showSpinner = false;
+              });
               showDialog(context: context,child: ErrorPopup(title:Text('User Not Found'),content: Text('$result')));
             } else {
-              print(result.uid);
+              setState(() {
+                showSpinner = false;
+              });
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -257,7 +267,7 @@ class _RegisterState extends State<Register> {
           }
         }catch(e){
           setState(() {
-            // showSpinner = false;
+            showSpinner = false;
           });
           showDialog(context: context,child: ErrorPopup(content: Text('$e.')));
         }

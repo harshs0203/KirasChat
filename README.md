@@ -1,6 +1,6 @@
 # kiras_chat
 
-A new Flutter application.
+A chat app specificly for a college
 
 ## Getting Started
 
